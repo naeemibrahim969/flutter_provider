@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'provider/counter.dart';
 import 'package:listwithprovider/list_screen.dart';
+import 'provider/following.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider<Counter>(create: (_) => Counter()),
+          ChangeNotifierProvider<Following>(create: (_) => Following())
+        ],
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,10 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ChangeNotifierProvider<Counter>(
-        create: (_) => Counter() ,
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
-      ),
+      home: MyHomePage(title: 'Flutter Demo Home Page')
     );
   }
 }
@@ -76,7 +81,7 @@ class MyHomePage extends StatelessWidget {
               ),
               FloatingActionButton(
                 onPressed: () => {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ListScreen(title: "Next Screen")))
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ListScreen()))
                 },
                 tooltip: 'Next Screen',
                 child: const Icon(Icons.navigate_next),
